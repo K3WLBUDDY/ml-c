@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.h"
+#include "nnClassifier.h"
 
 int main(int argc, char **argv)
 {
@@ -37,6 +38,6 @@ int main(int argc, char **argv)
 
     delete(Xtr);
     delete(Ytr);
-    
+
     return 0;
 }

@@ -57,6 +57,26 @@ void dot(matrix m1, matrix m2)
     //TODO
 }
 
+matrix add(matrix m1, matrix m2)
+{
+
+}
+
+matrix sub(matrix m1, matrix m2)
+{
+
+}
+
+matrix multiply(matrix m1, int scalar)
+{
+
+}
+
+float toArray(matrix m1, int axis)
+{
+
+}
+
 
 matrix loadCifarBatch(char *batchPath)
 {
