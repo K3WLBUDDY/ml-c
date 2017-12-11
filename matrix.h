@@ -65,7 +65,6 @@ matrix loadCifarBatch(char *batchPath)
         perror("The following Error occurred : ");
     
     matrix m;
-    int c;
     m.rows = 10000;
     m.cols = 3072;
     
@@ -93,6 +92,32 @@ matrix loadCifarBatch(char *batchPath)
     return m;
 }
 
+matrix loadCifarLabels(char *batchPath)
+{
+    FILE *fp = fopen(batchPath, "r");
+    if(!fp)
+        perror("The following Error occurred : ");
+
+    matrix m;
+    m.rows = 10000;
+    m.cols = 1;
+
+    m.vals = calloc(m.rows, sizeof(float *));
+    
+    for(int i = 0; i < m.rows; i++)
+        m.vals[i] = calloc(m.cols, sizeof(float));
+
+    m.vals[0][0] = fgetc(fp);
+    fseek(fp, 1, SEEK_SET);
+
+    for(int i = 1; i < m.rows; i++)
+    {
+        fseek(fp, 3072, SEEK_CUR);
+        m.vals[i][0] = fgetc(fp);
+    }
+    return m;
+
+}
 /* 
  * Collate support is Cocked up for now. Still not gonna use Function Overloading. More like I can't :\
  * TODO - Implement _Generic (No, not the Java one. That's shit tbh)
@@ -100,28 +125,33 @@ matrix loadCifarBatch(char *batchPath)
 
 matrix collate(matrix *m1, matrix *m2, matrix *m3, matrix *m4, matrix *m5)
 {
-    matrix Xte;
-    Xte.rows = m1->rows + m2->rows + m3->rows + m4->rows + m5->rows;
-    Xte.cols = m1->cols + m2->cols + m3->cols + m4->cols + m5->cols;
-    Xte.vals = calloc(Xte.rows, sizeof(float *));
+    matrix m;
+    m.rows = m1->rows + m2->rows + m3->rows + m4->rows + m5->rows;
+    m.cols = m1->cols;
+    m.vals = calloc(m.rows, sizeof(float *));
     
-    for(int i = 0; i < Xte.rows; i++)
-        Xte.vals[i] = calloc(Xte.cols, sizeof(float));
-    for(int i = 0; i < Xte.rows; i++)
-        for(int j = 0; j < Xte.cols; j++)
+    for(int i = 0; i < m.rows; i++)
+        m.vals[i] = calloc(m.cols, sizeof(float));
+
+    for(int i = 0; i < m.rows; i++)
+        for(int j = 0; j < m.cols; j++)
         {   
             if(i < m1->rows)
-                Xte.vals[i][j] = m1->vals[i][j];
-            else if(i > m1->rows && i < m1->rows * 2)
-                Xte.vals[i][j] = m2->vals[i][j];
-            else if(i > m1->rows * 2 && i < m1->rows * 3)
-                Xte.vals[i][j] = m3->vals[i][j];
-            else if(i > m1->rows * 3 && i < m1->rows * 4)
-                Xte.vals[i][j] = m4->vals[i][j];
-            else 
-                Xte.vals[i][j] = m5->vals[i][j];
+                m.vals[i][j] = m1->vals[i][j];
+
+            else if(i >= m1->rows && i < m1->rows * 2)
+                m.vals[i][j] = m2->vals[i - m1->rows][j];
+
+            else if(i >= m1->rows * 2 && i < m1->rows * 3)
+                m.vals[i][j] = m3->vals[i - (m1->rows * 2)][j];
+
+            else if(i >= m1->rows * 3 && i < m1->rows * 4)
+                m.vals[i][j] = m4->vals[i - (m1->rows * 3)][j];
+
+            else if(i >= m1->rows * 4)
+                m.vals[i][j] = m5->vals[i - (m1->rows * 4)][j];
         }
-    return Xte;
+    return m;
 }
 
 #endif

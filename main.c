@@ -5,19 +5,38 @@
 int main(int argc, char **argv)
 {
 
-    matrix m1 = loadCifarBatch("datasets/cifar10/data_batch_1.bin");
-    matrix m2 = loadCifarBatch("datasets/cifar10/data_batch_2.bin");
-    matrix m3 = loadCifarBatch("datasets/cifar10/data_batch_3.bin");
-    matrix m4 = loadCifarBatch("datasets/cifar10/data_batch_4.bin");
-    matrix m5 = loadCifarBatch("datasets/cifar10/data_batch_5.bin");
+    matrix x1 = loadCifarBatch("datasets/cifar10/data_batch_1.bin");
+    matrix x2 = loadCifarBatch("datasets/cifar10/data_batch_2.bin");
+    matrix x3 = loadCifarBatch("datasets/cifar10/data_batch_3.bin");
+    matrix x4 = loadCifarBatch("datasets/cifar10/data_batch_4.bin");
+    matrix x5 = loadCifarBatch("datasets/cifar10/data_batch_5.bin");
+    matrix Xte = loadCifarBatch("datasets/cifar10/test_batch.bin");
 
-    matrix Xtr = collate(&m1, &m2, &m3, &m4, &m5);
+    matrix Xtr = collate(&x1, &x2, &x3, &x4, &x5);
 
-    delete(m1);
-    delete(m2);
-    delete(m3);
-    delete(m4);
-    delete(m5);
+    delete(x1);
+    delete(x2);
+    delete(x3);
+    delete(x4);
+    delete(x5);
 
+    matrix y1 = loadCifarLabels("datasets/cifar10/data_batch_1.bin");
+    matrix y2 = loadCifarLabels("datasets/cifar10/data_batch_2.bin");
+    matrix y3 = loadCifarLabels("datasets/cifar10/data_batch_3.bin");
+    matrix y4 = loadCifarLabels("datasets/cifar10/data_batch_4.bin");
+    matrix y5 = loadCifarLabels("datasets/cifar10/data_batch_5.bin");
+    matrix Yte = loadCifarLabels("datasets/cifar10/test_batch.bin");
+
+    matrix Ytr = collate(&y1, &y2, &y3, &y4, &y5);
+
+    delete(y1);
+    delete(y2);
+    delete(y3);
+    delete(y4);
+    delete(y5);
+
+    delete(Xtr);
+    delete(Ytr);
+    
     return 0;
 }

@@ -1,6 +1,9 @@
 # Valgrind Core files
 vgcore.*
 
+# Datasets
+datasets/*
+
 # Prerequisites
 *.d
 
