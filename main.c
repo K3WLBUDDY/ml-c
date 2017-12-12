@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     matrix Yte = loadCifarLabels("datasets/cifar10/test_batch.bin");
 
     matrix Ytr = collate(&y1, &y2, &y3, &y4, &y5);
-    predict(&Xtr, &Ytr, &Xte);
+    predict(&Xtr, &Ytr, &Xte, &Yte);
 
     delete(y1);
     delete(y2);

@@ -176,6 +176,26 @@ matrix collate(matrix *m1, matrix *m2, matrix *m3, matrix *m4, matrix *m5)
     return m;
 }
 
+float * min(matrix *m ,int axis)
+{
+    float *minValues = (float *)calloc(m->rows, sizeof(float *));
+    float *pos = (float *)calloc(m->rows, sizeof(float *));
+    for(int i = 0; i < m->rows; i++)
+    {
+        minValues[i] = m->vals[i][0];
+        pos[i] = 0;
+        for(int j = 1; j < m->cols; j++)
+            if(m->vals[i][j] < minValues[i])
+            {
+                minValues[i] = m->vals[i][j];
+                pos[i] = j;
+            }
+    }
+
+    return pos;
+}
+
+/*
 int compare(const void *a, const void *b)
 {
     return (*(int*)a - *(int*)b);
@@ -204,5 +224,6 @@ matrix sort(matrix m, int axis)
 
     return m;
 }
+*/
 
 #endif
