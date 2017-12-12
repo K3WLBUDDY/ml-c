@@ -138,6 +138,8 @@ matrix loadCifarLabels(char *batchPath)
     return m;
 
 }
+
+
 /* 
  * Collate support is Cocked up for now. Still not gonna use Function Overloading. More like I can't :\
  * TODO - Implement _Generic (No, not the Java one. That's shit tbh)
@@ -171,6 +173,35 @@ matrix collate(matrix *m1, matrix *m2, matrix *m3, matrix *m4, matrix *m5)
             else if(i >= m1->rows * 4)
                 m.vals[i][j] = m5->vals[i - (m1->rows * 4)][j];
         }
+    return m;
+}
+
+int compare(const void *a, const void *b)
+{
+    return (*(int*)a - *(int*)b);
+}
+
+matrix sort(matrix m, int axis)
+{
+    if(axis == 1)
+    {
+        float *temp = (float *)calloc(m.cols, sizeof(float *));
+        for(int i = 0; i < m.rows; i++)
+        {
+            for(int j = 0; j < m.cols; j++)
+                temp[j] = m.vals[i][j];
+
+            qsort(temp, m.cols, 8, compare);
+            for(int j = 0; j < m.cols; j++)
+                m.vals[i][j] = temp[j];
+        }
+    }
+
+    else if(axis == 0)
+    {
+
+    }
+
     return m;
 }
 

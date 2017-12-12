@@ -39,6 +39,8 @@ int main(int argc, char **argv)
 
     delete(Xtr);
     delete(Ytr);
+    delete(Xte);
+    delete(Yte);
 
     return 0;
 }
