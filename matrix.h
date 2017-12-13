@@ -191,7 +191,8 @@ float * min(matrix *m ,int axis)
                 pos[i] = j;
             }
     }
-
+    
+    free(minValues);
     return pos;
 }
 
