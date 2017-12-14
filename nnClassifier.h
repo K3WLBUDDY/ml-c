@@ -3,29 +3,26 @@
 
 #include "matrix.h"
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 void predict(matrix *Xtr, matrix *Ytr, matrix *Xte, matrix *Yte)
 {   
-
-    float *trainTotal = (float *)calloc(Xtr->rows, sizeof(float *));
-    float *testTotal = (float *)calloc(Xte->rows, sizeof(float *));
-    matrix scores = create(Xte->rows, Xtr->rows);
+    int correct = 0;
+    matrix inter = create(Xte->rows, Xtr->rows);
     
-    
-    for(int i = 0; i < Xtr->rows; i++)
-        for(int j = 0; j < Xtr->cols; j++)
-        {    
-            trainTotal[i] += Xtr->vals[i][j];
-            if(i < Xte->rows)
-                testTotal[i] += Xte->vals[i][j];
-        }
-
     for(int i = 0; i < Xte->rows; i++)
+    {   
+        printf("\n Iteration %d", i);
         for(int j = 0; j < Xtr->rows; j++)
-            scores.vals[i][j] = abs(testTotal[i] - trainTotal[j]);
+            for(int k = 0; k < Xtr->cols; k++)
+                inter.vals[i][j] += abs(Xte->vals[i][k] - Xtr->vals[j][k]);
+    }
+ 
+    
+    float *Ypred = min(&inter, 1);
 
-    float *Ypred = min(&scores, 1);
+    delete(inter);
 
     for(int i = 0; i < Xte->rows; i++)
         Ypred[i] = Ytr->vals[(int)Ypred[i]][0];
@@ -33,12 +30,8 @@ void predict(matrix *Xtr, matrix *Ytr, matrix *Xte, matrix *Yte)
     for(int i = 0; i < Xte->rows; i++)
         printf("\n Scores : %d", (int)Ypred[i]);
 
-    delete(scores);
-    free(testTotal);
-    free(trainTotal);
-
-    int correct = 0;
-        printf("\n Size of Stuff : %d", Yte->rows);
+    
+    
     for(int i = 0; i < Xte->rows; i++)
         if((int)Ypred[i] == (int)Yte->vals[i][0])
             {
@@ -51,6 +44,7 @@ void predict(matrix *Xtr, matrix *Ytr, matrix *Xte, matrix *Yte)
     printf("\n Accuracy : %f", accuracy);
 
     free(Ypred);
+    
         
 }
 
