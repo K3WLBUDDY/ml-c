@@ -1,6 +1,9 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct matrix
 {
     long int rows, cols;
@@ -18,6 +21,11 @@ matrix create(int rows, int cols)
             m.vals[i] = calloc(m.cols, sizeof(float));
     
     return m;
+}
+
+void shape(matrix *m)
+{
+    printf("\n (%d, %d)", m->rows, m->cols);
 }
 
 
@@ -52,9 +60,44 @@ void loadFromCSV(char *filePath)
     //TODO
 }
 
-void dot(matrix m1, matrix m2)
+matrix dot(matrix *m1, matrix *m2)
+{   
+    int k;
+    if(m1->cols != m2->rows)
+        printf("\n Incompatible shapes");
+    else 
+    {
+        matrix m3 = create(m1->rows, m2->cols);
+
+        k = 0;
+        for(int i = 0; i < m1->rows; i++)
+            for(int j = 0; j < m1->cols; j++)
+                m3.vals[i][k] += m1->vals[i][j] * m2->vals[j][i];
+    }
+
+    
+}
+
+matrix reshape(matrix m, int rows, int cols)
 {
-    //TODO
+    if(m.rows == rows && m.cols == cols)
+        return m;
+        
+    if(m.rows < rows)
+    {
+        m.vals = realloc(m.vals, rows * sizeof(float*));
+        for(int i = m.rows; i < rows; i++)
+            m.vals[i] = calloc(m.cols, sizeof(float));
+        m.rows = rows;
+    }
+    if(m.cols < cols)
+    {
+        for(int i = 0; i < m.rows; i++)
+            m.vals[i] = realloc(m.vals[i], cols*sizeof(float) );
+        m.cols = cols;
+    }
+    
+    return m;
 }
 
 matrix add(matrix m1, matrix m2)
