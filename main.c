@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "matrix.h"
 #include "nnClassifier.h"
+#include "svm.h"
 
 int main(int argc, char **argv)
 {
-
     matrix x1 = loadCifarBatch("datasets/cifar10/data_batch_1.bin");
     matrix x2 = loadCifarBatch("datasets/cifar10/data_batch_2.bin");
     matrix x3 = loadCifarBatch("datasets/cifar10/data_batch_3.bin");
@@ -29,7 +29,9 @@ int main(int argc, char **argv)
     matrix Yte = loadCifarLabels("datasets/cifar10/test_batch.bin");
 
     matrix Ytr = collate(&y1, &y2, &y3, &y4, &y5);
-    predict(&Xtr, &Ytr, &Xte, &Yte);
+
+    //nnClassifier(&Xtr, &Ytr, &Xte, &Yte);
+    svm_init(Xtr, Ytr);
 
     delete(y1);
     delete(y2);
@@ -41,6 +43,6 @@ int main(int argc, char **argv)
     delete(Ytr);
     delete(Xte);
     delete(Yte);
-
+    
     return 0;
 }

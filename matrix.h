@@ -23,9 +23,9 @@ matrix create(int rows, int cols)
     return m;
 }
 
-void shape(matrix *m)
+void shape(matrix m)
 {
-    printf("\n (%d, %d)", m->rows, m->cols);
+    printf("\n (%d, %d)", m.rows, m.cols);
 }
 
 
@@ -82,7 +82,7 @@ matrix reshape(matrix m, int rows, int cols)
 {
     if(m.rows == rows && m.cols == cols)
         return m;
-        
+
     if(m.rows < rows)
     {
         m.vals = realloc(m.vals, rows * sizeof(float*));
@@ -110,12 +110,7 @@ matrix sub(matrix m1, matrix m2)
 
 }
 
-matrix multiply(matrix m1, int scalar)
-{
-
-}
-
-float toArray(matrix m1, int axis)
+float *toArray(matrix m1, int row, int column, int axis)
 {
 
 }
