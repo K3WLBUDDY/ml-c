@@ -45,6 +45,7 @@ void print(matrix m)
          for(int j = 0; j < m.cols; j++)
             printf(" | %f", m.vals[i][j]);
     }
+    printf("\n");
     
 }
 
@@ -62,20 +63,18 @@ void loadFromCSV(char *filePath)
 
 matrix dot(matrix *m1, matrix *m2)
 {   
-    int k;
+    matrix m3 = create(m1->rows, m2->cols);
+
     if(m1->cols != m2->rows)
         printf("\n Incompatible shapes");
+
     else 
-    {
-        matrix m3 = create(m1->rows, m2->cols);
-
-        k = 0;
         for(int i = 0; i < m1->rows; i++)
-            for(int j = 0; j < m1->cols; j++)
-                m3.vals[i][k] += m1->vals[i][j] * m2->vals[j][i];
-    }
+            for(int j = 0; j < m2->cols; j++)
+                for(int k = 0; k < m1->rows; k++)
+                    m3.vals[i][j] += m1->vals[i][k] * m2->vals[k][j];
 
-    
+    return m3;
 }
 
 matrix reshape(matrix m, int rows, int cols)
