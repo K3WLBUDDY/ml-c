@@ -49,11 +49,14 @@ void print(matrix m)
     
 }
 
-void scale(matrix m, float scale)
+matrix scale(matrix m, float scale)
 {
+    matrix s = create(m.rows, m.cols);
     for(int i = 0; i < m.rows; i++)
         for(int j = 0; j < m.cols; j++)
-            m.vals[i][j] *= scale;
+            s.vals[i][j] = m.vals[i][j] * scale;
+    
+    return s;
 }
 
 void loadFromCSV(char *filePath)
@@ -106,7 +109,11 @@ matrix add(matrix m1, matrix m2)
 
 matrix sub(matrix m1, matrix m2)
 {
-
+    matrix m3 = create(m1.rows, m1.cols);
+    for(int i = 0; i < m1.rows; i++)
+        for(int j = 0; j < m2.rows; j++)
+            m3.vals[i][j] = m1.vals[i][j] - m2.vals[i][j];
+    return m3;
 }
 
 float *toArray(matrix m1, int row, int column, int axis)
