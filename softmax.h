@@ -29,4 +29,9 @@ void softmax_init(matrix Xtr, matrix Ytr)
             Xtr.vals[i][Xtr.cols - 1] = 1.0;
 }
 
+float crossEntropyLoss(matrix Xtr, matrix Ytr)
+{
+    
+}
+
 #endif

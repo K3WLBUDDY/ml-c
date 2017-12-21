@@ -44,7 +44,7 @@ float hingeLoss(matrix Xtr, matrix Ytr)
     totalLoss = totalLoss * 0.00002;
 
     printf("\n Weird total Loss : %lf", totalLoss);
-    return totalLoss;
+    return tempLoss;
 }
 
 void svm_init(matrix Xtr, matrix Ytr)
