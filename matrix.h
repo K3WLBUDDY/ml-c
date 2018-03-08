@@ -62,6 +62,7 @@ matrix scale(matrix m, float scale)
 void loadFromCSV(char *filePath)
 {
     //TODO
+    //EDIT - After a few months (lel), it's done. Check k3wlbuddy.github.io's repo for the source
 }
 
 matrix dot(matrix *m1, matrix *m2)
